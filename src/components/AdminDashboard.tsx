@@ -335,7 +335,10 @@ import {
   Red,
   Necked,
   Little,
-  Stint as StintIcon
+  Stint as StintIcon,
+  TrendingDown,
+  Building,
+  MousePointer
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import InvitationModal from './InvitationModal';
@@ -964,25 +967,1360 @@ const AdminDashboard: React.FC = () => {
         return (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Donatiebeheer</h1>
-              <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                <Plus className="h-4 w-4" />
-                <span>Nieuwe Donatie</span>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Donatiebeheer</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer donaties en fondsenwerving</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Donatie
               </button>
             </div>
-
-            {/* Stats Cards */}
-            <div className="grid md:grid-cols-3 gap-6">
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center space-x-3">
                   <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
+                    <Heart className="h-6 w-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Deze Maand</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                      €{mockDonations.reduce((sum, d) => sum + d.amount, 0)}
-                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Deze Maand</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€2,450</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Groei</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">+18%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Donateurs</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">127</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gemiddeld</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€19</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Donations */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Donaties</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { donor: 'Maria Jansen', amount: 50, purpose: 'Algemeen Fonds', date: '2024-12-20', method: 'Bank' },
+                  { donor: 'Jan de Vries', amount: 25, purpose: 'Jeugdwerk', date: '2024-12-19', method: 'Contant' },
+                  { donor: 'Anna Bakker', amount: 100, purpose: 'Onderhoud', date: '2024-12-18', method: 'Online' }
+                ].map((donation, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Heart className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{donation.donor}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{donation.purpose} • {donation.method}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{donation.date}</p>
+                      </div>
+                    </div>
+                    <div className="text-lg font-semibold text-green-600 dark:text-green-400">
+                      €{donation.amount}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'groups':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Groepenbeheer</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer alle gemeenschapsgroepen</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Groep
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Groepen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <UserPlus className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Actieve Leden</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">187</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Deze Week</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Groei</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">+15%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Groups List */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Alle Groepen</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { name: 'Koor', category: 'Muziek', members: 24, leader: 'Maria Jansen', nextMeeting: '2024-12-22' },
+                  { name: 'Jongerengroep', category: 'Sociaal', members: 18, leader: 'Jan de Vries', nextMeeting: '2024-12-21' },
+                  { name: 'Bijbelstudie', category: 'Studie', members: 32, leader: 'Anna Bakker', nextMeeting: '2024-12-23' },
+                  { name: 'Vrijwilligersteam', category: 'Service', members: 15, leader: 'Piet Smit', nextMeeting: '2024-12-24' }
+                ].map((group, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{group.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{group.category} • {group.members} leden</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">Leider: {group.leader}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Volgende bijeenkomst</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">{group.nextMeeting}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'volunteers':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Vrijwilligersbeheer</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer vrijwilligers en hun taken</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <UserPlus className="h-4 w-4 inline mr-2" />
+                Nieuwe Vrijwilliger
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <UserCheck className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Actieve Vrijwilligers</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">45</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Uren Deze Maand</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">234</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Teams</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Award className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Voltooide Taken</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">127</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Volunteer Teams */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Vrijwilligersteams</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { team: 'Welkomstteam', leader: 'Maria Jansen', members: 8, nextShift: '2024-12-22' },
+                  { team: 'Techniek', leader: 'Jan de Vries', members: 5, nextShift: '2024-12-21' },
+                  { team: 'Kinderopvang', leader: 'Anna Bakker', members: 12, nextShift: '2024-12-22' },
+                  { team: 'Catering', leader: 'Piet Smit', members: 10, nextShift: '2024-12-23' }
+                ].map((team, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Users className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{team.team}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Teamleider: {team.leader}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{team.members} vrijwilligers</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Volgende dienst</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">{team.nextShift}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'attendance':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Aanwezigheidsregistratie</h1>
+                <p className="text-gray-600 dark:text-gray-400">Volg aanwezigheid bij evenementen</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Registratie Toevoegen
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gemiddelde Aanwezigheid</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">87%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Trend</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">+5%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Evenementen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Aanwezig</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,247</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Attendance */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Aanwezigheid</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { event: 'Zondagsdienst', date: '2024-12-22', present: 145, total: 180, percentage: 81 },
+                  { event: 'Woensdaggebed', date: '2024-12-18', present: 67, total: 75, percentage: 89 },
+                  { event: 'Jongerenbijeenkomst', date: '2024-12-15', present: 23, total: 28, percentage: 82 },
+                  { event: 'Koorrepetitie', date: '2024-12-14', present: 18, total: 24, percentage: 75 }
+                ].map((attendance, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{attendance.event}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{attendance.date}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{attendance.present}/{attendance.total} aanwezig</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className={`text-2xl font-semibold ${
+                        attendance.percentage >= 85 ? 'text-green-600 dark:text-green-400' :
+                        attendance.percentage >= 70 ? 'text-yellow-600 dark:text-yellow-400' :
+                        'text-red-600 dark:text-red-400'
+                      }`}>
+                        {attendance.percentage}%
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'reports':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Rapporten & Analytics</h1>
+                <p className="text-gray-600 dark:text-gray-400">Inzichten en statistieken</p>
+              </div>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                <Download className="h-4 w-4 inline mr-2" />
+                Export Rapport
+              </button>
+            </div>
+            
+            {/* Key Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Leden</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">324</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Groei Rate</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">+12%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Heart className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Donaties</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€2,450</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Evenementen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">18</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Report Categories */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { title: 'Ledenrapport', description: 'Groei en betrokkenheid', icon: Users, color: 'blue' },
+                { title: 'Financieel Rapport', description: 'Donaties en uitgaven', icon: DollarSign, color: 'green' },
+                { title: 'Evenementen Rapport', description: 'Aanwezigheid en feedback', icon: Calendar, color: 'purple' },
+                { title: 'Vrijwilligers Rapport', description: 'Uren en betrokkenheid', icon: UserCheck, color: 'orange' }
+              ].map((report, index) => {
+                const Icon = report.icon;
+                return (
+                  <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className={`p-3 bg-${report.color}-100 dark:bg-${report.color}-900/30 rounded-lg w-fit mb-4`}>
+                      <Icon className={`h-6 w-6 text-${report.color}-600 dark:text-${report.color}-400`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{report.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{report.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+
+      case 'announcements':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Mededelingen</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer gemeenschapsmededelingen</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Mededeling
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Bell className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Actieve Mededelingen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Eye className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gelezen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">89%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <MessageSquare className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Reacties</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Share2 className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gedeeld</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Announcements List */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Mededelingen</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Kerstviering 2024', priority: 'Hoog', status: 'Gepubliceerd', date: '2024-12-20', views: 145 },
+                  { title: 'Nieuwe Openingstijden', priority: 'Medium', status: 'Gepubliceerd', date: '2024-12-18', views: 89 },
+                  { title: 'Vrijwilligers Gezocht', priority: 'Medium', status: 'Concept', date: '2024-12-15', views: 0 },
+                  { title: 'Gemeenschapsmaaltijd', priority: 'Laag', status: 'Gepubliceerd', date: '2024-12-12', views: 67 }
+                ].map((announcement, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Bell className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{announcement.title}</p>
+                        <div className="flex items-center space-x-2 mt-1">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            announcement.priority === 'Hoog' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' :
+                            announcement.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                          }`}>
+                            {announcement.priority}
+                          </span>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            announcement.status === 'Gepubliceerd' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                          }`}>
+                            {announcement.status}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{announcement.date} • {announcement.views} views</p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'newsletter':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Nieuwsbrief</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer nieuwsbrieven en abonnees</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Nieuwsbrief
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Abonnees</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">298</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Mail className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Open Rate</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">78%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <MousePointer className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Click Rate</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">23%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Send className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Verzonden</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Newsletter Templates */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { name: 'Basis Template', description: 'Eenvoudig en clean design', preview: 'bg-gradient-to-br from-gray-400 to-gray-600' },
+                { name: 'Feestelijk Template', description: 'Voor speciale gelegenheden', preview: 'bg-gradient-to-br from-red-400 to-green-600' },
+                { name: 'Modern Template', description: 'Eigentijds en strak', preview: 'bg-gradient-to-br from-blue-400 to-purple-600' }
+              ].map((template, index) => (
+                <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow cursor-pointer">
+                  <div className={`h-32 rounded-lg mb-4 ${template.preview} flex items-center justify-center`}>
+                    <Mail className="h-8 w-8 text-white" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{template.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{template.description}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Recent Newsletters */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Nieuwsbrieven</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'December Update', sent: '2024-12-15', opens: 234, clicks: 67, status: 'Verzonden' },
+                  { title: 'Kerstboodschap', sent: '2024-12-10', opens: 198, clicks: 45, status: 'Verzonden' },
+                  { title: 'Nieuwjaar Vooruitblik', sent: '', opens: 0, clicks: 0, status: 'Concept' }
+                ].map((newsletter, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Mail className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{newsletter.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {newsletter.status === 'Verzonden' ? `Verzonden: ${newsletter.sent}` : 'Concept'}
+                        </p>
+                        {newsletter.status === 'Verzonden' && (
+                          <p className="text-xs text-gray-500 dark:text-gray-500">
+                            {newsletter.opens} opens • {newsletter.clicks} clicks
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      newsletter.status === 'Verzonden' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                    }`}>
+                      {newsletter.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'notifications':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Notificaties</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer push notificaties en meldingen</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Notificatie
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Send className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Verzonden</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,247</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bezorgd</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,189</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <MousePointer className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Geklikt</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">267</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">CTR</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">22%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Notification Settings */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Automatische Instellingen</h3>
+              <div className="space-y-4">
+                {[
+                  { title: 'Evenement Herinneringen', description: 'Stuur herinneringen 24u voor evenementen', enabled: true },
+                  { title: 'Nieuwe Mededelingen', description: 'Notificeer bij nieuwe mededelingen', enabled: true },
+                  { title: 'Vrijwilliger Oproepen', description: 'Stuur notificaties voor vrijwilligerswerk', enabled: false },
+                  { title: 'Stille Uren', description: 'Geen notificaties tussen 22:00 - 08:00', enabled: true }
+                ].map((setting, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white">{setting.title}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{setting.description}</p>
+                    </div>
+                    <div className={`w-12 h-6 rounded-full p-1 transition-colors ${
+                      setting.enabled ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}>
+                      <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
+                        setting.enabled ? 'translate-x-6' : 'translate-x-0'
+                      }`}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Recent Notifications */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Notificaties</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Zondagsdienst Herinnering', type: 'Reminder', sent: '2024-12-21', delivered: 145, clicked: 23 },
+                  { title: 'Nieuwe Mededeling', type: 'Announcement', sent: '2024-12-20', delivered: 298, clicked: 67 },
+                  { title: 'Vrijwilligers Gezocht', type: 'Volunteer', sent: '2024-12-18', delivered: 89, clicked: 12 }
+                ].map((notification, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Bell className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{notification.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{notification.type} • {notification.sent}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          {notification.delivered} bezorgd • {notification.clicked} geklikt
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'social':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Social Media</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer sociale media accounts en posts</p>
+              </div>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Post
+              </button>
+            </div>
+            
+            {/* Social Media Accounts */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { platform: 'Facebook', followers: '1.2K', engagement: '4.2%', status: 'Verbonden', color: 'blue', posts: 24 },
+                { platform: 'Instagram', followers: '856', engagement: '6.8%', status: 'Verbonden', color: 'pink', posts: 18 },
+                { platform: 'YouTube', followers: '432', engagement: '3.1%', status: 'Niet Verbonden', color: 'red', posts: 12 }
+              ].map((account, index) => (
+                <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{account.platform}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      account.status === 'Verbonden' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                    }`}>
+                      {account.status}
+                    </span>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Volgers</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{account.followers}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Engagement</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{account.engagement}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Posts</span>
+                      <span className="font-medium text-gray-900 dark:text-white">{account.posts}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Content Calendar */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Content Kalender</h3>
+              <div className="grid grid-cols-7 gap-4">
+                {['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'].map((day, index) => (
+                  <div key={index} className="text-center">
+                    <div className="font-medium text-gray-900 dark:text-white mb-2">{day}</div>
+                    <div className="space-y-2">
+                      {index === 1 && (
+                        <div className="bg-blue-100 dark:bg-blue-900/30 p-2 rounded text-xs text-blue-800 dark:text-blue-200">
+                          Facebook Post
+                        </div>
+                      )}
+                      {index === 3 && (
+                        <div className="bg-pink-100 dark:bg-pink-900/30 p-2 rounded text-xs text-pink-800 dark:text-pink-200">
+                          Instagram Story
+                        </div>
+                      )}
+                      {index === 5 && (
+                        <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded text-xs text-red-800 dark:text-red-200">
+                          YouTube Video
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Recent Posts */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Posts</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { content: 'Kerstviering aankondiging', platform: 'Facebook', date: '2024-12-20', likes: 45, comments: 12, shares: 8 },
+                  { content: 'Gemeenschapsfoto zondag', platform: 'Instagram', date: '2024-12-18', likes: 67, comments: 23, shares: 5 },
+                  { content: 'Nieuwe preek online', platform: 'YouTube', date: '2024-12-15', likes: 34, comments: 8, shares: 12 }
+                ].map((post, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                        <Share2 className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{post.content}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{post.platform} • {post.date}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          {post.likes} likes • {post.comments} comments • {post.shares} shares
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'website':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Website Beheer</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer je organisatie website</p>
+              </div>
+              <div className="flex space-x-3">
+                <button 
+                  onClick={() => navigate('/builder')}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Edit className="h-4 w-4 inline mr-2" />
+                  Website Bewerken
+                </button>
+                <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  <Eye className="h-4 w-4 inline mr-2" />
+                  Preview
+                </button>
+              </div>
+            </div>
+            
+            {/* Website Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Eye className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bezoekers</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,247</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Globe className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Pagina Views</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">3,456</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gem. Sessie</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">2:34</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bounce Rate</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">23%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Website Pages */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Website Pagina's</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { page: 'Homepage', status: 'Gepubliceerd', views: 1247, lastUpdated: '2024-12-20' },
+                  { page: 'Over Ons', status: 'Gepubliceerd', views: 456, lastUpdated: '2024-12-18' },
+                  { page: 'Diensten', status: 'Gepubliceerd', views: 789, lastUpdated: '2024-12-15' },
+                  { page: 'Contact', status: 'Concept', views: 0, lastUpdated: '2024-12-12' }
+                ].map((page, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Globe className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{page.page}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Laatst bijgewerkt: {page.lastUpdated}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{page.views} views</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        page.status === 'Gepubliceerd' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                        'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                      }`}>
+                        {page.status}
+                      </span>
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'sermons':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Preken & Lezingen</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer audio en video opnames</p>
+              </div>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Preek
+              </button>
+            </div>
+            
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Mic className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Preken</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">127</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Play className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Luisteraars</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">2,456</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Download className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Downloads</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,234</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Star className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gem. Rating</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">4.8</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Sermons */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Preken</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Hoop in Donkere Tijden', speaker: 'Dominee Jansen', date: '2024-12-22', duration: '32:15', plays: 145 },
+                  { title: 'Liefde en Vergeving', speaker: 'Dominee Bakker', date: '2024-12-15', duration: '28:43', plays: 89 },
+                  { title: 'Geloof in Actie', speaker: 'Dominee Smit', date: '2024-12-08', duration: '35:22', plays: 167 },
+                  { title: 'Vrede Vinden', speaker: 'Dominee de Vries', date: '2024-12-01', duration: '29:18', plays: 123 }
+                ].map((sermon, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                        <Mic className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{sermon.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{sermon.speaker} • {sermon.date}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{sermon.duration} • {sermon.plays} afgespeeld</p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Play className="h-4 w-4" />
+                      </button>
+                      <button className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                        <Download className="h-4 w-4" />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'library':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Bibliotheek</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer content en resources</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Resource
+              </button>
+            </div>
+            
+            {/* Content Categories */}
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                { title: 'Preken', count: 127, icon: Mic, color: 'purple', description: 'Audio en video preken' },
+                { title: 'Artikelen', count: 89, icon: FileText, color: 'blue', description: 'Geschreven content' },
+                { title: 'Video\'s', count: 45, icon: Video, color: 'red', description: 'Video content en tutorials' }
+              ].map((category, index) => {
+                const Icon = category.icon;
+                return (
+                  <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className={`p-3 bg-${category.color}-100 dark:bg-${category.color}-900/30 rounded-lg w-fit mb-4`}>
+                      <Icon className={`h-6 w-6 text-${category.color}-600 dark:text-${category.color}-400`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{category.title}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{category.description}</p>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{category.count}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Recent Content */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Toegevoegd</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Kerstboodschap 2024', type: 'Video', author: 'Dominee Jansen', date: '2024-12-20', views: 234 },
+                  { title: 'Geloof in Moeilijke Tijden', type: 'Artikel', author: 'Maria Bakker', date: '2024-12-18', views: 156 },
+                  { title: 'Gemeenschap Opbouwen', type: 'Preek', author: 'Dominee Smit', date: '2024-12-15', views: 189 },
+                  { title: 'Jeugdwerk Handleiding', type: 'Document', author: 'Jan de Vries', date: '2024-12-12', views: 67 }
+                ].map((content, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Book className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{content.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{content.type} • {content.author}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{content.date} • {content.views} views</p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'media':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Media Archief</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer foto's, video's en audio bestanden</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Upload className="h-4 w-4 inline mr-2" />
+                Upload Media
+              </button>
+            </div>
+            
+            {/* Media Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <FileImage className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Foto's</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,247</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                    <Video className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Video's</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">89</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Headphones className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Audio</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">156</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Database className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal GB</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24.7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Media Grid */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Recent Geüpload</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {Array.from({ length: 12 }, (_, index) => (
+                  <div key={index} className="aspect-square bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors cursor-pointer">
+                    <FileImage className="h-8 w-8 text-gray-400" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'music':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Muziek & Koor</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer muziek, koor en worship</p>
+              </div>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuw Lied
+              </button>
+            </div>
+            
+            {/* Music Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Music className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Liedjes</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">234</p>
                   </div>
                 </div>
               </div>
@@ -993,8 +2331,125 @@ const AdminDashboard: React.FC = () => {
                     <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Aantal Donateurs</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">{mockDonations.length}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Koorleden</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Repetities</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Mic className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Optredens</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Song List */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Liedjeslijst</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Amazing Grace', artist: 'Traditioneel', key: 'G', tempo: '72 BPM', lastUsed: '2024-12-22' },
+                  { title: 'How Great Thou Art', artist: 'Carl Boberg', key: 'C', tempo: '68 BPM', lastUsed: '2024-12-15' },
+                  { title: 'Blessed Be Your Name', artist: 'Matt Redman', key: 'D', tempo: '76 BPM', lastUsed: '2024-12-08' },
+                  { title: 'In Christ Alone', artist: 'Keith Getty', key: 'A', tempo: '74 BPM', lastUsed: '2024-12-01' }
+                ].map((song, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                        <Music className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{song.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{song.artist}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          {song.key} • {song.tempo} • Laatst gebruikt: {song.lastUsed}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Play className="h-4 w-4" />
+                      </button>
+                      <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'livestream':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Live Streaming</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer live uitzendingen</p>
+              </div>
+              <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                <Video className="h-4 w-4 inline mr-2" />
+                Start Stream
+              </button>
+            </div>
+            
+            {/* Stream Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                    <Video className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Live Kijkers</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">0</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Eye className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Views</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">2,456</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Stream Tijd</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">0:00</p>
                   </div>
                 </div>
               </div>
@@ -1002,96 +2457,1288 @@ const AdminDashboard: React.FC = () => {
               <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                 <div className="flex items-center space-x-3">
                   <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                    <TrendingUp className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                    <MessageSquare className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Gemiddelde Donatie</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">
-                      €{Math.round(mockDonations.reduce((sum, d) => sum + d.amount, 0) / mockDonations.length)}
-                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Chat Berichten</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">0</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Donations Table */}
+            {/* Stream Preview */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Stream Preview</h3>
+              <div className="aspect-video bg-gray-900 rounded-lg flex items-center justify-center">
+                <div className="text-center text-white">
+                  <Video className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                  <p className="text-lg font-medium">Stream is offline</p>
+                  <p className="text-sm opacity-75">Klik op "Start Stream" om te beginnen</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Previous Streams */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Donateur</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Bedrag</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Doel</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Methode</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Datum</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acties</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                    {mockDonations.map((donation) => (
-                      <tr key={donation.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
-                              {donation.donor.charAt(0)}
-                            </div>
-                            <div className="ml-4">
-                              <div className="text-sm font-medium text-gray-900 dark:text-white">{donation.donor}</div>
-                              {donation.recurring && (
-                                <div className="text-xs text-green-600 dark:text-green-400">Terugkerend</div>
-                              )}
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-semibold text-gray-900 dark:text-white">€{donation.amount}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900 dark:text-white">{donation.purpose}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
-                            donation.method === 'online' 
-                              ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
-                              : donation.method === 'bank'
-                              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                              : donation.method === 'cash'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                              : 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400'
-                          }`}>
-                            {donation.method}
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Vorige Streams</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Zondagsdienst', date: '2024-12-22', duration: '1:32:15', views: 145, peak: 89 },
+                  { title: 'Woensdaggebed', date: '2024-12-18', duration: '45:23', views: 67, peak: 34 },
+                  { title: 'Kerstviering', date: '2024-12-15', duration: '2:15:45', views: 234, peak: 156 }
+                ].map((stream, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                        <Video className="h-5 w-5 text-red-600 dark:text-red-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{stream.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{stream.date} • {stream.duration}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">
+                          {stream.views} views • Peak: {stream.peak} kijkers
+                        </p>
+                      </div>
+                    </div>
+                    <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                      <Play className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'podcasts':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Podcasts</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer podcast afleveringen</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Aflevering
+              </button>
+            </div>
+            
+            {/* Podcast Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Headphones className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Afleveringen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">47</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Abonnees</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,234</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Download className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Downloads</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8,567</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Star className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Rating</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">4.7</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Episodes */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Afleveringen</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Geloof in Actie - Aflevering 47', date: '2024-12-20', duration: '42:15', downloads: 234, status: 'Gepubliceerd' },
+                  { title: 'Gemeenschap Opbouwen - Aflevering 46', date: '2024-12-13', duration: '38:22', downloads: 189, status: 'Gepubliceerd' },
+                  { title: 'Hoop en Vertrouwen - Aflevering 45', date: '2024-12-06', duration: '45:18', downloads: 267, status: 'Gepubliceerd' },
+                  { title: 'Nieuwjaar Vooruitblik - Aflevering 48', date: '', duration: '0:00', downloads: 0, status: 'Concept' }
+                ].map((episode, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Headphones className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{episode.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {episode.status === 'Gepubliceerd' ? `${episode.date} • ${episode.duration}` : 'Concept'}
+                        </p>
+                        {episode.status === 'Gepubliceerd' && (
+                          <p className="text-xs text-gray-500 dark:text-gray-500">{episode.downloads} downloads</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        episode.status === 'Gepubliceerd' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                        'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                      }`}>
+                        {episode.status}
+                      </span>
+                      <div className="flex space-x-2">
+                        {episode.status === 'Gepubliceerd' && (
+                          <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                            <Play className="h-4 w-4" />
+                          </button>
+                        )}
+                        <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
+                          <Edit className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'finance':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Financieel Overzicht</h1>
+                <p className="text-gray-600 dark:text-gray-400">Inkomsten, uitgaven en budgetbeheer</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Transactie
+              </button>
+            </div>
+            
+            {/* Financial Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Inkomsten</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€12,450</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                    <TrendingDown className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Uitgaven</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€8,230</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Netto Resultaat</p>
+                    <p className="text-2xl font-semibold text-green-600 dark:text-green-400">€4,220</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <PieChart className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Budget Gebruikt</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">67%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Transactions */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Transacties</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { description: 'Donatie - Maria Jansen', amount: 250, type: 'income', date: '2024-12-20', category: 'Donaties' },
+                  { description: 'Elektriciteit rekening', amount: -180, type: 'expense', date: '2024-12-18', category: 'Utilities' },
+                  { description: 'Kerstversiering', amount: -75, type: 'expense', date: '2024-12-15', category: 'Evenementen' },
+                  { description: 'Collecte zondag', amount: 340, type: 'income', date: '2024-12-15', category: 'Collectes' }
+                ].map((transaction, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-lg ${
+                        transaction.type === 'income' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'
+                      }`}>
+                        {transaction.type === 'income' ? (
+                          <TrendingUp className="h-5 w-5 text-green-600 dark:text-green-400" />
+                        ) : (
+                          <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{transaction.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{transaction.category} • {transaction.date}</p>
+                      </div>
+                    </div>
+                    <div className={`text-lg font-semibold ${
+                      transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                    }`}>
+                      {transaction.type === 'income' ? '+' : ''}€{Math.abs(transaction.amount)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'expenses':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Uitgavenbeheer</h1>
+                <p className="text-gray-600 dark:text-gray-400">Volg en beheer alle uitgaven</p>
+              </div>
+              <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Uitgave
+              </button>
+            </div>
+            
+            {/* Expense Categories */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { category: 'Utilities', amount: 1250, budget: 1500, color: 'blue' },
+                { category: 'Onderhoud', amount: 890, budget: 1000, color: 'green' },
+                { category: 'Evenementen', amount: 450, budget: 800, color: 'purple' },
+                { category: 'Administratie', amount: 320, budget: 500, color: 'orange' }
+              ].map((expense, index) => {
+                const percentage = (expense.amount / expense.budget) * 100;
+                return (
+                  <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{expense.category}</h3>
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">€{expense.amount}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">van €{expense.budget}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div 
+                        className={`bg-${expense.color}-600 h-2 rounded-full transition-all duration-300`}
+                        style={{ width: `${Math.min(percentage, 100)}%` }}
+                      ></div>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{percentage.toFixed(0)}% gebruikt</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Recent Expenses */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Uitgaven</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { description: 'Elektriciteit December', amount: 180, category: 'Utilities', date: '2024-12-20', status: 'Betaald' },
+                  { description: 'Kerstversiering', amount: 75, category: 'Evenementen', date: '2024-12-18', status: 'Betaald' },
+                  { description: 'Schoonmaakspullen', amount: 45, category: 'Onderhoud', date: '2024-12-15', status: 'Pending' },
+                  { description: 'Kantoorbenodigdheden', amount: 32, category: 'Administratie', date: '2024-12-12', status: 'Betaald' }
+                ].map((expense, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                        <TrendingDown className="h-5 w-5 text-red-600 dark:text-red-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{expense.description}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{expense.category} • {expense.date}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        expense.status === 'Betaald' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                      }`}>
+                        {expense.status}
+                      </span>
+                      <div className="text-lg font-semibold text-red-600 dark:text-red-400">
+                        €{expense.amount}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'budget':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Budgetplanning</h1>
+                <p className="text-gray-600 dark:text-gray-400">Plan en volg je jaarbudget</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuw Budget
+              </button>
+            </div>
+            
+            {/* Budget Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <PieChart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Budget</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€15,000</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gebruikt</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€8,230</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Resterend</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€6,770</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Target className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Voortgang</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">55%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Budget Categories */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Budget per Categorie</h3>
+              <div className="space-y-6">
+                {[
+                  { category: 'Utilities & Onderhoud', budgeted: 4000, spent: 2340, color: 'blue' },
+                  { category: 'Evenementen & Activiteiten', budgeted: 3000, spent: 1250, color: 'green' },
+                  { category: 'Administratie & Kantoor', budgeted: 2000, spent: 890, color: 'purple' },
+                  { category: 'Muziek & Techniek', budgeted: 2500, spent: 1450, color: 'orange' },
+                  { category: 'Jeugdwerk & Educatie', budgeted: 1500, spent: 670, color: 'red' },
+                  { category: 'Liefdadigheid & Outreach', budgeted: 2000, spent: 1630, color: 'teal' }
+                ].map((budget, index) => {
+                  const percentage = (budget.spent / budget.budgeted) * 100;
+                  return (
+                    <div key={index} className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="font-medium text-gray-900 dark:text-white">{budget.category}</span>
+                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                            €{budget.spent} / €{budget.budgeted}
                           </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                          {donation.date}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                          <div 
+                            className={`bg-${budget.color}-600 h-3 rounded-full transition-all duration-300`}
+                            style={{ width: `${Math.min(percentage, 100)}%` }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between items-center mt-1">
+                          <span className="text-xs text-gray-500 dark:text-gray-500">{percentage.toFixed(0)}% gebruikt</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-500">€{budget.budgeted - budget.spent} resterend</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'fundraising':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Fondsenwerving</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer fondswervingscampagnes</p>
+              </div>
+              <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Campagne
+              </button>
+            </div>
+            
+            {/* Fundraising Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Target className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Actieve Campagnes</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">3</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Opgehaald</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€8,450</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Donateurs</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">127</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gem. Donatie</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€67</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Active Campaigns */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Actieve Campagnes</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Kerkdak Renovatie', goal: 5000, raised: 3450, donors: 45, endDate: '2025-02-28', status: 'Actief' },
+                  { title: 'Jeugdkamp 2025', goal: 2000, raised: 1250, donors: 28, endDate: '2025-01-31', status: 'Actief' },
+                  { title: 'Nieuwe Orgel', goal: 8000, raised: 3750, donors: 54, endDate: '2025-06-30', status: 'Actief' }
+                ].map((campaign, index) => {
+                  const percentage = (campaign.raised / campaign.goal) * 100;
+                  return (
+                    <div key={index} className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white">{campaign.title}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Eindigt op {campaign.endDate}</p>
+                        </div>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 rounded-full text-xs font-medium">
+                          {campaign.status}
+                        </span>
+                      </div>
+                      <div className="mb-3">
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-lg font-semibold text-gray-900 dark:text-white">€{campaign.raised}</span>
+                          <span className="text-sm text-gray-600 dark:text-gray-400">van €{campaign.goal}</span>
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                          <div 
+                            className="bg-purple-600 h-3 rounded-full transition-all duration-300"
+                            style={{ width: `${Math.min(percentage, 100)}%` }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="text-xs text-gray-500 dark:text-gray-500">{percentage.toFixed(0)}% behaald</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-500">{campaign.donors} donateurs</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'grants':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Subsidies & Grants</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer subsidieaanvragen en grants</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Aanvraag
+              </button>
+            </div>
+            
+            {/* Grant Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <FileText className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Aanvragen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Goedgekeurd</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">5</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <DollarSign className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Ontvangen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">€12,500</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">In Behandeling</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">2</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Grant Applications */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Subsidieaanvragen</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Gemeente Subsidie Jeugdwerk', amount: 5000, status: 'Goedgekeurd', date: '2024-12-15', deadline: '2025-01-31' },
+                  { title: 'Provincie Cultuur Fonds', amount: 3000, status: 'In Behandeling', date: '2024-12-10', deadline: '2025-02-15' },
+                  { title: 'EU Gemeenschap Grant', amount: 8000, status: 'In Behandeling', date: '2024-12-05', deadline: '2025-03-01' },
+                  { title: 'Lokale Stichting Ondersteuning', amount: 2500, status: 'Goedgekeurd', date: '2024-11-20', deadline: '2024-12-31' }
+                ].map((grant, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Award className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{grant.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Aangevraagd: {grant.date} • Deadline: {grant.deadline}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">€{grant.amount}</p>
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      grant.status === 'Goedgekeurd' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      grant.status === 'In Behandeling' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                      'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                    }`}>
+                      {grant.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'facilities':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Faciliteiten</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer gebouwen en ruimtes</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Ruimte
+              </button>
+            </div>
+            
+            {/* Facility Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Building className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Ruimtes</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Reserveringen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Capaciteit</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">450</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bezetting</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">78%</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Facilities List */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Ruimtes & Faciliteiten</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { name: 'Hoofdkerk', capacity: 200, status: 'Beschikbaar', nextEvent: 'Zondagsdienst - 10:00', type: 'Worship' },
+                  { name: 'Gemeenschapszaal', capacity: 80, status: 'Gereserveerd', nextEvent: 'Koorrepetitie - 19:30', type: 'Meeting' },
+                  { name: 'Jeugdruimte', capacity: 30, status: 'Beschikbaar', nextEvent: 'Vrijdagavond - 19:00', type: 'Youth' },
+                  { name: 'Keuken', capacity: 10, status: 'Onderhoud', nextEvent: 'Beschikbaar vanaf morgen', type: 'Kitchen' },
+                  { name: 'Kantoor', capacity: 5, status: 'Bezet', nextEvent: 'Bestuursvergadering - 14:00', type: 'Office' }
+                ].map((facility, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Building className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{facility.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          {facility.type} • Capaciteit: {facility.capacity} personen
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">{facility.nextEvent}</p>
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      facility.status === 'Beschikbaar' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      facility.status === 'Gereserveerd' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' :
+                      facility.status === 'Bezet' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                      'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                    }`}>
+                      {facility.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'maintenance':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Onderhoud</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer onderhoudsverzoeken en taken</p>
+              </div>
+              <button className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuw Verzoek
+              </button>
+            </div>
+            
+            {/* Maintenance Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <Settings className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Open Verzoeken</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">7</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Voltooid</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">23</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                    <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Urgent</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">2</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Gem. Tijd</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">3.2d</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Maintenance Requests */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Onderhoudsverzoeken</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { title: 'Lekkage in dak hoofdkerk', priority: 'Urgent', status: 'In Behandeling', date: '2024-12-20', assignee: 'Jan Bakker' },
+                  { title: 'Verwarming gemeenschapszaal', priority: 'Hoog', status: 'Open', date: '2024-12-18', assignee: 'Niet toegewezen' },
+                  { title: 'Kapotte lamp in gang', priority: 'Laag', status: 'Open', date: '2024-12-15', assignee: 'Piet Smit' },
+                  { title: 'Schoonmaak na evenement', priority: 'Medium', status: 'Voltooid', date: '2024-12-12', assignee: 'Maria Jansen' }
+                ].map((request, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                        <Settings className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{request.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Toegewezen aan: {request.assignee} • {request.date}
+                        </p>
+                        <div className="flex items-center space-x-2 mt-1">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            donation.status === 'completed' 
-                              ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                              : donation.status === 'pending'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                              : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                            request.priority === 'Urgent' ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' :
+                            request.priority === 'Hoog' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400' :
+                            request.priority === 'Medium' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                           }`}>
-                            {donation.status}
+                            {request.priority}
                           </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex space-x-2">
-                            <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                              <Eye className="h-4 w-4" />
-                            </button>
-                            <button className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-300">
-                              <Download className="h-4 w-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            request.status === 'Voltooid' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                            request.status === 'In Behandeling' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' :
+                            'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                          }`}>
+                            {request.status}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                        <CheckCircle className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'security':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Beveiliging</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beveiligingsinstellingen en toegangsbeheer</p>
+              </div>
+              <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                <Shield className="h-4 w-4 inline mr-2" />
+                Beveiligingsrapport
+              </button>
+            </div>
+            
+            {/* Security Status */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Shield className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Beveiligingsstatus</p>
+                    <p className="text-lg font-semibold text-green-600 dark:text-green-400">Veilig</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Key className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Actieve Sleutels</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">12</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Toegang Vandaag</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">34</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <AlertCircle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Waarschuwingen</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">0</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Security Settings */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Beveiligingsinstellingen</h3>
+              <div className="space-y-4">
+                {[
+                  { title: 'Automatische Vergrendeling', description: 'Vergrendel deuren automatisch na sluitingstijd', enabled: true },
+                  { title: 'Toegangslogboek', description: 'Houd bij wie wanneer toegang heeft gehad', enabled: true },
+                  { title: 'Alarm Systeem', description: 'Activeer alarm bij ongeautoriseerde toegang', enabled: true },
+                  { title: 'Camera Opname', description: 'Record beveiligingscamera\'s 24/7', enabled: false },
+                  { title: 'Mobiele Meldingen', description: 'Stuur meldingen naar beheerders', enabled: true }
+                ].map((setting, index) => (
+                  <div key={index} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white">{setting.title}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{setting.description}</p>
+                    </div>
+                    <div className={`w-12 h-6 rounded-full p-1 transition-colors ${
+                      setting.enabled ? 'bg-green-600' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}>
+                      <div className={`w-4 h-4 rounded-full bg-white transition-transform ${
+                        setting.enabled ? 'translate-x-6' : 'translate-x-0'
+                      }`}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Access Log */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recente Toegang</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { person: 'Dominee Jansen', action: 'Toegang verkregen', location: 'Hoofdingang', time: '08:30', status: 'success' },
+                  { person: 'Jan Bakker', action: 'Toegang verkregen', location: 'Zijingang', time: '09:15', status: 'success' },
+                  { person: 'Maria Smit', action: 'Toegang geweigerd', location: 'Kantoor', time: '10:45', status: 'warning' },
+                  { person: 'Piet de Vries', action: 'Toegang verkregen', location: 'Gemeenschapszaal', time: '14:20', status: 'success' }
+                ].map((log, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-lg ${
+                        log.status === 'success' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'
+                      }`}>
+                        {log.status === 'success' ? (
+                          <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
+                        ) : (
+                          <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{log.person}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{log.action} • {log.location}</p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-500 dark:text-gray-500">{log.time}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'inventory':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Inventaris</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer spullen en materialen</p>
+              </div>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuw Item
+              </button>
+            </div>
+            
+            {/* Inventory Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Archive className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Totaal Items</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">247</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Beschikbaar</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">189</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Uitgeleend</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">34</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-lg">
+                    <AlertCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Onderhoud</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">24</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Inventory Categories */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { category: 'Audio/Video', items: 45, icon: Headphones, color: 'purple' },
+                { category: 'Meubilair', items: 89, icon: Archive, color: 'blue' },
+                { category: 'Keuken', items: 67, icon: Archive, color: 'green' },
+                { category: 'Kantoor', items: 46, icon: FileText, color: 'orange' }
+              ].map((category, index) => {
+                const Icon = category.icon;
+                return (
+                  <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className={`p-3 bg-${category.color}-100 dark:bg-${category.color}-900/30 rounded-lg w-fit mb-4`}>
+                      <Icon className={`h-6 w-6 text-${category.color}-600 dark:text-${category.color}-400`} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{category.category}</h3>
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white">{category.items}</div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">items</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Recent Items */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Toegevoegd</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { name: 'Draadloze Microfoon Set', category: 'Audio/Video', status: 'Beschikbaar', date: '2024-12-20', location: 'Techniek Kast' },
+                  { name: 'Klapstoel (20x)', category: 'Meubilair', status: 'Beschikbaar', date: '2024-12-18', location: 'Opslag A' },
+                  { name: 'Koffiezetapparaat', category: 'Keuken', status: 'Uitgeleend', date: '2024-12-15', location: 'Gemeenschapszaal' },
+                  { name: 'Laptop Dell', category: 'Kantoor', status: 'Onderhoud', date: '2024-12-12', location: 'IT Kast' }
+                ].map((item, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                        <Archive className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{item.category} • {item.location}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">Toegevoegd: {item.date}</p>
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      item.status === 'Beschikbaar' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      item.status === 'Uitgeleend' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
+                      'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                    }`}>
+                      {item.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'bookings':
+        return (
+          <div className="space-y-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Reserveringen</h1>
+                <p className="text-gray-600 dark:text-gray-400">Beheer ruimte reserveringen</p>
+              </div>
+              <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                <Plus className="h-4 w-4 inline mr-2" />
+                Nieuwe Reservering
+              </button>
+            </div>
+            
+            {/* Booking Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                    <Calendar className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Deze Week</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">18</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
+                    <Clock className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Vandaag</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">5</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                    <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bezetting</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">67%</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                    <CheckCircle className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Bevestigd</p>
+                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">15</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Today's Bookings */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Reserveringen Vandaag</h3>
+              </div>
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {[
+                  { event: 'Koorrepetitie', room: 'Gemeenschapszaal', time: '19:30 - 21:00', organizer: 'Maria Jansen', status: 'Bevestigd' },
+                  { event: 'Bestuursvergadering', room: 'Kantoor', time: '14:00 - 16:00', organizer: 'Jan Bakker', status: 'Bevestigd' },
+                  { event: 'Jeugdgroep', room: 'Jeugdruimte', time: '19:00 - 21:30', organizer: 'Piet Smit', status: 'Pending' },
+                  { event: 'Bijbelstudie', room: 'Kleine Zaal', time: '20:00 - 21:30', organizer: 'Anna de Vries', status: 'Bevestigd' }
+                ].map((booking, index) => (
+                  <div key={index} className="p-6 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
+                        <Calendar className="h-5 w-5 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white">{booking.event}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{booking.room} • {booking.time}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500">Organisator: {booking.organizer}</p>
+                      </div>
+                    </div>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      booking.status === 'Bevestigd' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
+                      'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                    }`}>
+                      {booking.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Room Availability */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Ruimte Beschikbaarheid</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                  { room: 'Hoofdkerk', status: 'Beschikbaar', nextBooking: 'Zondag 10:00' },
+                  { room: 'Gemeenschapszaal', status: 'Bezet', nextBooking: 'Tot 21:00' },
+                  { room: 'Jeugdruimte', status: 'Beschikbaar', nextBooking: 'Vrijdag 19:00' },
+                  { room: 'Kantoor', status: 'Bezet', nextBooking: 'Tot 16:00' }
+                ].map((room, index) => (
+                  <div key={index} className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className="font-medium text-gray-900 dark:text-white">{room.room}</h4>
+                      <span className={`w-3 h-3 rounded-full ${
+                        room.status === 'Beschikbaar' ? 'bg-green-500' : 'bg-red-500'
+                      }`}></span>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{room.status}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">{room.nextBooking}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1154,200 +3801,6 @@ const AdminDashboard: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'library':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Bibliotheek</h1>
-              <button className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <Plus className="h-4 w-4" />
-                <span>Content Toevoegen</span>
-              </button>
-            </div>
-
-            {/* Categories */}
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 text-center">
-                <Mic className="h-12 w-12 text-blue-600 dark:text-blue-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Preken</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Audio en video opnames van preken</p>
-                <div className="mt-4">
-                  <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">12</span>
-                  <span className="text-sm text-gray-500 dark:text-gray-500 ml-1">items</span>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 text-center">
-                <Book className="h-12 w-12 text-green-600 dark:text-green-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Artikelen</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Geschreven content en studies</p>
-                <div className="mt-4">
-                  <span className="text-2xl font-bold text-green-600 dark:text-green-400">8</span>
-                  <span className="text-sm text-gray-500 dark:text-gray-500 ml-1">items</span>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 text-center">
-                <Video className="h-12 w-12 text-purple-600 dark:text-purple-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Video's</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">Video content en opnames</p>
-                <div className="mt-4">
-                  <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">15</span>
-                  <span className="text-sm text-gray-500 dark:text-gray-500 ml-1">items</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Recent Content */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Toegevoegd</h3>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-                {mockLibraryItems.map((item) => (
-                  <div key={item.id} className="group cursor-pointer">
-                    <div className="aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg mb-4 overflow-hidden">
-                      {item.thumbnail ? (
-                        <img 
-                          src={item.thumbnail} 
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          {item.type === 'sermon' && <Mic className="h-8 w-8 text-gray-400" />}
-                          {item.type === 'article' && <Book className="h-8 w-8 text-gray-400" />}
-                          {item.type === 'video' && <Video className="h-8 w-8 text-gray-400" />}
-                        </div>
-                      )}
-                    </div>
-                    <div>
-                      <div className="flex items-center space-x-2 mb-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium capitalize ${
-                          item.type === 'sermon' 
-                            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
-                            : item.type === 'article'
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                            : 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400'
-                        }`}>
-                          {item.type}
-                        </span>
-                        {item.duration && (
-                          <span className="text-xs text-gray-500 dark:text-gray-500">{item.duration}</span>
-                        )}
-                      </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{item.author}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-500">{item.date}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'website':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Website Beheer</h1>
-              <div className="flex space-x-3">
-                <button 
-                  onClick={() => navigate('/builder')}
-                  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  <Edit className="h-4 w-4" />
-                  <span>Website Bewerken</span>
-                </button>
-                <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                  <Eye className="h-4 w-4" />
-                  <span>Preview</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Website Stats */}
-            <div className="grid md:grid-cols-4 gap-6">
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                    <Eye className="h-6 w-6 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Bezoekers</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">1,234</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                    <Globe className="h-6 w-6 text-green-600 dark:text-green-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Pagina's</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">8</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                    <TrendingUp className="h-6 w-6 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Groei</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">+23%</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center space-x-3">
-                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                    <Clock className="h-6 w-6 text-orange-600 dark:text-orange-400" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Gem. Tijd</p>
-                    <p className="text-2xl font-semibold text-gray-900 dark:text-white">3:45</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Actions */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Snelle Acties</h3>
-              <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {[
-                  { icon: Edit, label: 'Pagina Bewerken', color: 'blue' },
-                  { icon: Plus, label: 'Nieuwe Pagina', color: 'green' },
-                  { icon: Image, label: 'Media Upload', color: 'purple' },
-                  { icon: Settings, label: 'Instellingen', color: 'gray' },
-                  { icon: Share2, label: 'Delen', color: 'orange' },
-                  { icon: Download, label: 'Backup', color: 'red' }
-                ].map((action, index) => {
-                  const Icon = action.icon;
-                  return (
-                    <button
-                      key={index}
-                      className="flex flex-col items-center space-y-2 p-4 border border-gray-200 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      <Icon className={`h-6 w-6 text-${action.color}-600 dark:text-${action.color}-400`} />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">{action.label}</span>
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>
@@ -1492,188 +3945,4 @@ const AdminDashboard: React.FC = () => {
                 className="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-600"
               />
               <div className="flex-1 text-left">
-                <p className="font-semibold text-gray-800 dark:text-white text-sm">{user?.name}</p>
-                <p className="text-xs text-blue-600 dark:text-blue-400">Administrator</p>
-              </div>
-              <ChevronDown className={`h-4 w-4 text-gray-600 dark:text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {showUserMenu && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg z-50">
-                <button
-                  onClick={() => setActiveTab('settings')}
-                  className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <Settings className="h-4 w-4 text-gray-600 dark:text-gray-400" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">Instellingen</span>
-                </button>
-                <div className="border-t border-gray-200 dark:border-gray-700"></div>
-                <button
-                  onClick={handleLogout}
-                  className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors text-red-600 dark:text-red-400"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span className="text-sm">Uitloggen</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-        
-        {/* Navigation with Categories */}
-        <nav className="p-4 max-h-[calc(100vh-300px)] overflow-y-auto">
-          <div className="space-y-6">
-            {/* Core Management */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Kern Beheer
-              </h3>
-              <div className="space-y-1">
-                {sidebarItems.filter(item => item.category === 'core').map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        activeTab === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Communication */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Communicatie
-              </h3>
-              <div className="space-y-1">
-                {sidebarItems.filter(item => item.category === 'communication').map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        activeTab === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Content & Media */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Content & Media
-              </h3>
-              <div className="space-y-1">
-                {sidebarItems.filter(item => item.category === 'content').map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        activeTab === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Financial */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Financieel
-              </h3>
-              <div className="space-y-1">
-                {sidebarItems.filter(item => item.category === 'financial').map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        activeTab === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Operations */}
-            <div>
-              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                Operationeel
-              </h3>
-              <div className="space-y-1">
-                {sidebarItems.filter(item => item.category === 'operations').map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
-                        activeTab === item.id
-                          ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <Icon className="h-4 w-4" />
-                      <span className="text-sm">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto">
-        <div className="p-8">
-          {renderContent()}
-        </div>
-      </div>
-
-      {/* Modals */}
-      {showInvitationModal && (
-        <InvitationModal
-          isOpen={showInvitationModal}
-          onClose={() => setShowInvitationModal(false)}
-          organizationName={user?.organizationName || 'Onze Organisatie'}
-          organizationType="church"
-        />
-      )}
-    </div>
-  );
-};
-
-export default AdminDashboard;
+                <p className="font-semibold text-gray-800 dark:text-white text-sm"
