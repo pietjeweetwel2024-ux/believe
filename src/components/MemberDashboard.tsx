@@ -446,14 +446,17 @@ const MemberDashboard: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                  className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-300 transform hover:scale-105 ${
                     activeTab === item.id
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                      : 'text-gray-600 hover:bg-gray-50'
+                      ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-2 border-blue-200 shadow-lg'
+                      : 'text-gray-600 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 hover:text-blue-600 hover:shadow-md'
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
-                  <span>{item.label}</span>
+                  <Icon className={`h-5 w-5 transition-colors ${activeTab === item.id ? 'text-blue-600' : ''}`} />
+                  <span className="font-medium">{item.label}</span>
+                  {activeTab === item.id && (
+                    <div className="ml-auto w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                  )}
                 </button>
               );
             })}
