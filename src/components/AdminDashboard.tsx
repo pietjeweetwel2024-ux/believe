@@ -3945,4 +3945,4 @@ const AdminDashboard: React.FC = () => {
                 className="w-10 h-10 rounded-full object-cover border-2 border-blue-200 dark:border-blue-600"
               />
               <div className="flex-1 text-left">
-                <p className="font-semibold text-gray-800 dark:text-white text-sm">
+                <p className="font-semibold text-gray-800 dark:text-white text-sm">{user?.name}</p>
