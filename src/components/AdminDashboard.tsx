@@ -3946,3 +3946,6 @@ const AdminDashboard: React.FC = () => {
               />
               <div className="flex-1 text-left">
                 <p className="font-semibold text-gray-800 dark:text-white text-sm">{user?.name}</p>
+                <p className="text-xs text-amber-600 dark:text-amber-400">Administrator</p>
+              </div>
+              <ChevronDown className={`h-4 w-4 text-gray-600 dark:text-gray-400 transition-transform ${showUserMenu ? 'rotate-180' : ''}`} />
